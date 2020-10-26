@@ -11,9 +11,9 @@ public class ArticleDao {
 
 	public ArticleDao() {
 		articles = new ArrayList<>();
-		Article a1 = new Article(1, "안녕하세요", "내용1", "익명", getCurrentDate());
-		Article a2 = new Article(2, "반갑습니다.", "내용2", "익명", getCurrentDate());
-		Article a3 = new Article(3, "안녕", "내용3", "익명", getCurrentDate());
+		Article a1 = new Article(1, "첫번째", "첫번째내용", "익명", getCurrentDate());
+		Article a2 = new Article(2, "두번째", "두번째내용", "익명", getCurrentDate());
+		Article a3 = new Article(3, "세번째", "세번째내용", "익명", getCurrentDate());
 
 		articles.add(a1);
 		articles.add(a2);
@@ -55,6 +55,37 @@ public class ArticleDao {
 		return searchedArticles;
 
 	}
+	public ArrayList<Article> getSearchedArticlesByBody(String keyword) {
+
+		ArrayList<Article> searchedArticles = new ArrayList<>();
+
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			String str = article.getBody();
+			if (str.contains(keyword)) {
+				searchedArticles.add(article);
+			}
+		}
+
+		return searchedArticles;
+
+	}
+	public ArrayList<Article> getSearchedArticlesByNickname(String keyword) {
+
+		ArrayList<Article> searchedArticles = new ArrayList<>();
+
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			String str = article.getNickname();
+			if (str.contains(keyword)) {
+				searchedArticles.add(article);
+			}
+		}
+
+		return searchedArticles;
+
+	}
+	
 
 	// Article 버전
 	public static Article getArticleById(int targetId) {

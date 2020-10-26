@@ -16,6 +16,7 @@ public class main {
 				System.out.println("종료");
 				break;
 			}
+
 			if (cmd.equals("add")) {
 
 				Article a = new Article();
@@ -30,12 +31,14 @@ public class main {
 				dao.insertArticle(a);
 				System.out.println("게시물이 등록되었습니다.");
 			}
+
 			if (cmd.equals("list")) {
 				ArrayList<Article> articles = dao.getArticles();
 
 				printArticles(articles);
 
 			}
+
 			if (cmd.equals("update")) {
 				System.out.println("수정할 게시물 선택 : ");
 				int targetId = sc.nextInt();
@@ -52,6 +55,7 @@ public class main {
 					break;
 				}
 			}
+
 			if (cmd.equals("delete")) {
 				ArrayList<Article> articles = dao.getArticles();
 				System.out.println("삭제할 게시물 선택 : ");
@@ -63,6 +67,7 @@ public class main {
 					dao.removeArticle(target);
 				}
 			}
+
 			if (cmd.equals("read")) {
 				System.out.println("상세보기할 게시물 선택 : ");
 				int targetId = sc.nextInt();
@@ -76,14 +81,72 @@ public class main {
 					System.out.println("제목 : " + target.getTitle());
 					System.out.println("내용 : " + target.getBody());
 					System.out.println("===============");
+
+					while (true) {
+
+						System.out.println("상세보기 기능을 선택해주세요 : ");
+						System.out.println("1. 댓글 등록, 2. 좋아요, 3. 수정, 4. 삭제, 5. 목록으로");
+						int choice = sc.nextInt();
+						if (choice == 5) {
+							System.out.println("[목록으로]");
+							break;
+						}
+
+						if (choice == 1) {
+							System.out.println("[댓글 등록 기능]");
+						} else if (choice == 2) {
+							System.out.println("[좋아요 기능]");
+						} else if (choice == 3) {
+							System.out.println("[수정 기능]");
+
+							System.out.println("게시물 제목을 입력해주세요 :");
+							String newTitle = sc.next();
+							System.out.println("게시물 내용을 입력해주세요 :");
+							String newBody = sc.next();
+							target.setTitle(newTitle);
+							target.setBody(newBody);
+						} else if (choice == 4) {
+							System.out.println("[삭제 기능]");
+							dao.removeArticle(target);
+
+						}
+					}
 				}
 			}
-			if (cmd.equals("search")) {
-				System.out.println("검색 키워드를 입력해주세요 : ");
-				String keyword = sc.next();
-				ArrayList<Article> searchedArticles = dao.getSearchedArticlesByTitle(keyword);
 
-				printArticles(searchedArticles);
+			if (cmd.equals("search")) {
+				System.out.println("검색 항목을 선택해주세요. : 1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자");
+				int choice = sc.nextInt();
+				if (choice == 1) {
+					System.out.println("검색 키워드를 입력해주세요. : ");
+					String keyword = sc.next();
+					ArrayList<Article> searchedArticles = dao.getSearchedArticlesByTitle(keyword);
+
+					printArticles(searchedArticles);
+				} else if (choice == 2) {
+					System.out.println("검색 키워드를 입력해주세요. : ");
+					String keyword = sc.next();
+					ArrayList<Article> searchedArticles = dao.getSearchedArticlesByBody(keyword);
+
+					printArticles(searchedArticles);
+
+				} else if (choice == 3) {
+					System.out.println("검색 키워드를 입력해주세요. : ");
+					String keyword = sc.next();
+					ArrayList<Article> searchedArticles = dao.getSearchedArticlesByBody(keyword);
+					ArrayList<Article> searchedArticles2 = dao.getSearchedArticlesByBody(keyword);
+
+					printArticles(searchedArticles);
+				} else {
+					System.out.println("검색 키워드를 입력해주세요. : ");
+					String keyword = sc.next();
+
+					ArrayList<Article> searchedArticles = dao.getSearchedArticlesByNickname(keyword);
+
+					printArticles(searchedArticles);
+
+				}
+
 			}
 		}
 	}
@@ -98,6 +161,10 @@ public class main {
 			System.out.println("조회수 : " + article.getHit());
 			System.out.println("===================");
 		}
+	}
+
+	private static void removeArticle() {
+
 	}
 
 }
